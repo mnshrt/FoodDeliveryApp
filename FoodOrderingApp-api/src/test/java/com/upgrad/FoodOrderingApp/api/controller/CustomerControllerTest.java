@@ -51,7 +51,7 @@
 //        mockMvc
 //                .perform(post("/customer/signup")
 //                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@email.com\", \"contact_number\":\"9090909090\", \"password\":\"qawsedrf@123\"}"))
+//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@email.com\", \"contact_number\":\"9090909090\", \"password\":\"Qawsedrf@123\"}"))
 //                .andExpect(status().isCreated())
 //                .andExpect(jsonPath("id").value(customerId));
 //        verify(mockCustomerService, times(1)).saveCustomer(any());
@@ -63,7 +63,7 @@
 //        mockMvc
 //                .perform(post("/customer/signup")
 //                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"\", \"contact_number\":\"9090909090\", \"password\":\"qawsedrf@123\"}"))
+//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"\", \"contact_number\":\"9090909090\", \"password\":\"Qawsedrf@123\"}"))
 //                .andExpect(status().isBadRequest())
 //                .andExpect(jsonPath("code").value("SGR-005"));
 //        verify(mockCustomerService, times(0)).saveCustomer(any());
@@ -78,7 +78,7 @@
 //        mockMvc
 //                .perform(post("/customer/signup")
 //                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@1\", \"contact_number\":\"9090909090\", \"password\":\"qawsedrf@123\"}"))
+//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@1\", \"contact_number\":\"9090909090\", \"password\":\"Qawsedrf@123\"}"))
 //                .andExpect(status().isBadRequest())
 //                .andExpect(jsonPath("code").value("SGR-002"));
 //        verify(mockCustomerService, times(1)).saveCustomer(any());
@@ -93,7 +93,7 @@
 //        mockMvc
 //                .perform(post("/customer/signup")
 //                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@email.com\", \"contact_number\":\"123\", \"password\":\"qawsedrf@123\"}"))
+//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@email.com\", \"contact_number\":\"123\", \"password\":\"Qawsedrf@123\"}"))
 //                .andExpect(status().isBadRequest())
 //                .andExpect(jsonPath("code").value("SGR-003"));
 //        verify(mockCustomerService, times(1)).saveCustomer(any());
@@ -124,7 +124,7 @@
 //        mockMvc
 //                .perform(post("/customer/signup")
 //                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@email.com\", \"contact_number\":\"9090909090\", \"password\":\"qawsedrf@123\"}"))
+//                        .content("{\"first_name\":\"first\", \"last_name\":\"last\", \"email_address\":\"abc@email.com\", \"contact_number\":\"9090909090\", \"password\":\"Qawsedrf@123\"}"))
 //                .andExpect(status().isBadRequest())
 //                .andExpect(jsonPath("code").value("SGR-001"));
 //        verify(mockCustomerService, times(1)).saveCustomer(any());
@@ -195,7 +195,7 @@
 //                .andExpect(jsonPath("code").value("ATH-002"));
 //        verify(mockCustomerService, times(1)).authenticate("9090909090", "IncorrectPassword");
 //    }
-//
+
 //    // ----------------------------- POST /customer/logout --------------------------------
 //
 //    //This test case passes when you are able to logout successfully.
@@ -482,5 +482,5 @@
 //        verify(mockCustomerService, times(1)).getCustomer("auth");
 //        verify(mockCustomerService, times(1)).updateCustomerPassword("oldPwd", "newPwd", customerEntity);
 //    }
-//
+
 //}
