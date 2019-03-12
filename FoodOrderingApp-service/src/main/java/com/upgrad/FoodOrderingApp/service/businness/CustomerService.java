@@ -1,10 +1,13 @@
 package com.upgrad.FoodOrderingApp.service.businness;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.upgrad.FoodOrderingApp.service.dao.CustomerDao;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerAuthEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthenticationFailedException;
+import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.SignUpRestrictedException;
+import com.upgrad.FoodOrderingApp.service.exception.UpdateCustomerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -52,11 +55,6 @@ public class CustomerService {
                 .matches("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$")) {
             throw new SignUpRestrictedException("SGR-002", "Invalid email-id format!");
         }
-        // Validate password format and length using regex
-        if (!customerEntity.getPassword()
-                .matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[A-Z])(?=.*[#@$%&*!^]).*$")) {
-            throw new SignUpRestrictedException("SGR-004", "Weak password!");
-        }
 
         // Once we have encrypted the password, generated the salt and validated the credentials,
         // create the customer in the DB and return customerEntity
@@ -72,6 +70,61 @@ public class CustomerService {
     public CustomerEntity getCustomerByContactNumber(String contactNumber) {
         // Query the DB and return associated CustomerEntity object
         return customerDao.findCustomerByContactNumber(contactNumber);
+    }
+
+    /**
+     * Method to check customer credentials before updating
+     * @param access_token Access token associated with the customer/session
+     * @return true, if the credentials are successfully validated
+     * @throws AuthorizationFailedException in cases where required
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean checkCustomer(String access_token) throws AuthorizationFailedException{
+        CustomerAuthEntity customerAuthEntity = customerDao.findCustomerAuthEntityByAccessToken(access_token);
+        if (customerAuthEntity == null){
+            throw new AuthorizationFailedException("ATHR-001", "Customer is not Logged in.");
+        } else if (!String.valueOf(customerDao
+                .findCustomerAuthEntityByAccessToken(access_token).getLogoutAt())
+                .equals("null")){
+            throw new AuthorizationFailedException("ATHR-002", "Customer is logged out. Log in again to access this endpoint");
+        } else if(customerAuthEntity.getExpiresAt() != null){
+            ZonedDateTime expiryTime = customerAuthEntity.getExpiresAt();
+            final ZonedDateTime currentTime = ZonedDateTime.now();
+            if(expiryTime != null && expiryTime.isBefore(currentTime)) {
+                throw new AuthorizationFailedException("ATHR-003",
+                        "Your session is expired. Log in again to access this endpoint");
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method to get customer using access token
+     * @param access_token Access token associated with the customer we are trying to find
+     * @return CustomerEntity of the customer
+     * @throws AuthorizationFailedException in cases where required
+     */
+    public CustomerEntity getCustomer(String access_token) throws AuthorizationFailedException{
+       CustomerEntity customerEntity = null;
+       boolean validify = checkCustomer(access_token);
+       if(validify){
+           customerEntity = customerDao.findCustomerAuthEntityByAccessToken(access_token).getCustomer();
+    }
+       return customerEntity;
+    }
+
+    /**
+     * Method to get CustomerAuthEntity by access token
+     * @param access_token Access token associated with the customer we are trying to find
+     * @return CustomerAuthEntity of the customer
+     * @throws AuthorizationFailedException in cases where required
+     */
+    public CustomerAuthEntity getCustomerAuth(String access_token) throws AuthorizationFailedException{
+        CustomerAuthEntity customerAuthEntity = null;
+        if (checkCustomer(access_token)){
+            customerAuthEntity = customerDao.findCustomerAuthEntityByAccessToken(access_token);
+        }
+        return customerAuthEntity;
     }
 
     /**
@@ -122,4 +175,52 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Method to logout customer
+     * @param access_token Access token associated with the session
+     * @return CustomerAuthEntity of the customer
+     * @throws AuthorizationFailedException in cases where required
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public CustomerAuthEntity logout(String access_token) throws AuthorizationFailedException {
+
+        final CustomerAuthEntity customerAuthEntity = customerDao
+                .findCustomerAuthEntityByAccessToken(access_token);
+
+        if (customerAuthEntity == null || customerAuthEntity.getUuid() == null){
+            throw new AuthorizationFailedException("ATHR-001", "Customer is not Logged in");
+        } else {
+            final ZonedDateTime currentTime = ZonedDateTime.now();
+            customerAuthEntity.setLogoutAt(currentTime);
+            return customerAuthEntity;
+        }
+    }
+
+    /**
+     * Method to update customer details
+     * @param customerEntity CustomerEntity of the customer
+     * @return Updated CustomerEntity
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {UpdateCustomerException.class})
+    public CustomerEntity updateCustomer(CustomerEntity customerEntity){
+        customerDao.updateCustomerDetails(customerEntity);
+        return customerEntity;
+    }
+
+    /**
+     * Method to validate credentials for updating customer details
+     * @param firstName First name of the customer
+     * @return true if validated
+     * @throws UpdateCustomerException in cases where firstName is an empty string or null
+     */
+    public boolean updateCredentialsValidifer(String firstName) throws UpdateCustomerException{
+        if (firstName != null) {
+            if (firstName.isEmpty() || firstName.matches("\".*\"")) {
+                        throw new UpdateCustomerException("UCR-002", "First name field should not be empty");
+                    }
+                } else if (firstName == null){
+            throw new UpdateCustomerException("UCR-002", "First name field should not be empty");
+        }
+        return true;
+    }
 }
