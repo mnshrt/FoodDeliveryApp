@@ -14,8 +14,8 @@ public class CustomerAuthEntity {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull
     @Column(name = "uuid")
+    @NotNull
     @Size(max = 200)
     private String uuid;
     @ManyToOne
