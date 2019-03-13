@@ -223,4 +223,72 @@ public class CustomerService {
         }
         return true;
     }
+
+    /**
+     * Method to validate input when updating password
+     * @param oldPassword Old password of the given customer
+     * @param newPassword New password of the given customer
+     * @return true if the passwords are validated
+     * @throws UpdateCustomerException in cases where the passwords are not validated
+     */
+    public boolean updatePasswordValidifier(String oldPassword, String newPassword) throws UpdateCustomerException{
+        if (oldPassword != null && newPassword != null) {
+            if (oldPassword.isEmpty() || oldPassword.matches("\".*\"") ||
+                    newPassword.isEmpty() || newPassword.matches("\".*\"")) {
+                throw new UpdateCustomerException("UCR-003", "No field should be empty");
+            }
+        } else if (oldPassword == null || newPassword == null){
+            throw new UpdateCustomerException("UCR-003", "No field should be empty");
+        }
+        return true;
+    }
+
+    /**
+     * Method to update customer password
+     * @param oldPassword Old password of the given customer
+     * @param newPassword New password of the given customer
+     * @param customerEntity CustomerEntity associated with the customer
+     * @return CustomerEntity with new password and salt
+     * @throws UpdateCustomerException in cases where required
+     */
+    public CustomerEntity updateCustomerPassword(String oldPassword,
+                                                 String newPassword,
+                                                 CustomerEntity customerEntity)
+            throws UpdateCustomerException{
+        // Extra layer of validation for the old and new password
+        updatePasswordValidifier(oldPassword, newPassword);
+        // Encrypt the password
+        String[] encryptPassword = passwordCryptographyProvider.encrypt(newPassword);
+        // Extract salt and assign to variable
+        String salt = encryptPassword[0];
+        // Set the salt
+        customerEntity.setSalt(salt);
+        // Set the new encrypted password
+        customerEntity.setPassword(encryptPassword[1]);
+        // Return customerEntity
+        return customerEntity;
+    }
+
+    /**
+     * Method to authenticate using the old password before updating customer password
+     * @param password Old password of the given customer
+     * @param customerEntity CustomerEntity associated with the customer
+     * @return CustomerEntity associated with the customer
+     * @throws UpdateCustomerException throw UpdateCustomerException when authenticating the old password fails
+     */
+    public boolean updatePasswordAuthentication(String password, CustomerEntity customerEntity) throws UpdateCustomerException{
+        // If the customer does not exist, throw exception
+        // Encrypt the password, and get salt
+        final String encryptedPassword = PasswordCryptographyProvider
+                .encrypt(password, customerEntity.getSalt());
+
+        // If the passwords match, the authentication is complete
+        // Else, throw exception due to invalid credentials
+        if (encryptedPassword.equals(customerEntity.getPassword())) {
+            return true;
+        } else {
+            throw new UpdateCustomerException("UCR-004", "Incorrect old password!");
+        }
+    }
+
 }
