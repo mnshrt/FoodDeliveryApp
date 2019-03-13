@@ -33,6 +33,7 @@ public class CustomerController {
 
     /**
      * Controller method for the signup endpoint
+     *
      * @param signupCustomerRequest SignUpCustomerRequest containing customer details
      * @return ResponseEntity containing the SignUpCUstomerRequest and HTTP Status
      * @throws SignUpRestrictedException throw SignUpRestrictedException in required cases
@@ -91,6 +92,7 @@ public class CustomerController {
 
     /**
      * Controller method for login endpoint
+     *
      * @param authorization Authorization header for Basic authentication.
      *                      Format - "Basic email:password"
      *                      Note: email:password needs to be base64 encoded
@@ -157,6 +159,7 @@ public class CustomerController {
 
     /**
      * Controler method for logout endpoint
+     *
      * @param authorization Authorization header. Format - "Bearer access-token"
      * @return ResponseEntity with logout response and HTTP status
      * @throws AuthorizationFailedException throw AuthorizationFailedException in required cases
@@ -206,17 +209,18 @@ public class CustomerController {
 
     /**
      * Controller method for update endpoint
+     *
      * @param access_token Access-token of the customer
      * @param updateCustomerRequest UpdateCustomerRequest containing the details that need to be updated
      * @return ResponseEntity with update customer response and HTTP status
      * @throws AuthorizationFailedException throw AuthorizationFailedException in required cases
-     * @throws UpdateCustomerException throw UpdateCustomerException in required cases
+     * @throws UpdateCustomerException      throw UpdateCustomerException in required cases
      */
+    @CrossOrigin
     @PutMapping(path = "/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UpdateCustomerResponse> update(@RequestHeader("authorization")
-                                                         final String access_token,
+    public ResponseEntity<UpdateCustomerResponse> update(@RequestHeader("authorization") final String access_token,
                                                          UpdateCustomerRequest updateCustomerRequest)
-            throws AuthorizationFailedException, UpdateCustomerException{
+            throws AuthorizationFailedException, UpdateCustomerException {
         // Validate the input
         boolean validateInput = customerService.updateCredentialsValidifer(updateCustomerRequest.getFirstName());
         // Perform authorization validation logic and get the associated CustomerEntity
@@ -231,13 +235,13 @@ public class CustomerController {
 
         // If the customerEntity is not null, proceed
         // Else, throw exception
-        if (customerEntity != null){
+        if (customerEntity != null) {
             // If the input is validated, update the firstName and lastName fields
             // in customerEntity and set the same for the variables firstName and
             // lastName
             // Additionally, use the customerEntity.getUuid() method and assign the
             // result to the uuid variable
-            if (validateInput){
+            if (validateInput) {
                 customerEntity.setFirstName(updateCustomerRequest.getFirstName());
                 firstName = updateCustomerRequest.getFirstName();
                 uuid = customerEntity.getUuid();
@@ -260,5 +264,67 @@ public class CustomerController {
 
         // Return response entity with update customer response and HTTP status
         return new ResponseEntity<UpdateCustomerResponse>(updateCustomerResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Controller method for change password endpoint
+     *
+     * @param access_token Access-token of the customer
+     * @param updatePasswordRequest UpdatePasswordRequest containing the old and new passwords
+     * @return UpdatePasswordResponse with UUID and HTTP status
+     * @throws UpdateCustomerException in cases where required
+     * @throws AuthorizationFailedException in cases where required
+     */
+    @CrossOrigin
+    @PutMapping(path = "/customer/password", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UpdatePasswordResponse> updatePassword(@RequestHeader("authorization") final String access_token,
+                                                                 UpdatePasswordRequest updatePasswordRequest)
+            throws UpdateCustomerException, AuthorizationFailedException{
+        // Validate the input
+        boolean validateInput = customerService.updatePasswordValidifier(
+                updatePasswordRequest.getOldPassword(),
+                updatePasswordRequest.getNewPassword());
+        // Perform authorization validation logic and get the associated CustomerEntity
+        CustomerEntity customerEntity = customerService.getCustomer(access_token);
+
+        boolean updateAuth = customerService.updatePasswordAuthentication(updatePasswordRequest.getOldPassword(), customerEntity);
+
+        if(customerEntity != null){
+            if (!updatePasswordRequest.getNewPassword()
+                    .matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[A-Z])(?=.*[#@$%&*!^]).*$")) {
+                throw new UpdateCustomerException("UCR-001", "Weak password!");
+            }
+        }
+
+        // Initialize uuid to am empty String
+        String uuid = "";
+
+        if (customerEntity != null && updateAuth) {
+            // If the input is validated, update the firstName and lastName fields
+            // in customerEntity and set the same for the variables firstName and
+            // lastName
+            // Additionally, use the customerEntity.getUuid() method and assign the
+            // result to the uuid variable
+            if (validateInput) {
+               customerService.updateCustomerPassword(
+                        updatePasswordRequest.getNewPassword(),
+                       updatePasswordRequest.getNewPassword(),
+                       customerEntity);
+                uuid = customerEntity.getUuid();
+            }
+        } else {
+            throw new AuthorizationFailedException("ATHR-001", "Customer is not logged in");
+        }
+
+        // Update the customer password
+        customerService.updateCustomer(customerEntity);
+
+        // Create update password response
+        UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse()
+                .id(uuid)
+                .status("CUSTOMER PASSWORD UPDATED SUCCESSFULLY");
+
+        // Return response entity with update password response and HTTP status
+        return new ResponseEntity<UpdatePasswordResponse>(updatePasswordResponse, HttpStatus.OK);
     }
 }
