@@ -1,7 +1,6 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
-import com.upgrad.FoodOrderingApp.api.model.SaveAddressRequest;
-import com.upgrad.FoodOrderingApp.api.model.SaveAddressResponse;
+import com.upgrad.FoodOrderingApp.api.model.*;
 import com.upgrad.FoodOrderingApp.service.businness.AddressService;
 import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
 import com.upgrad.FoodOrderingApp.service.entity.AddressEntity;
@@ -17,9 +16,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -36,6 +39,16 @@ public class AddressController {
     @Autowired
     CustomerService customerService;
 
+    /**
+     * Controller method for the Save Address endpoint
+     *
+     * @param access_token Access-token of the customer
+     * @param saveAddressRequest SaveAddressRequest containing address details
+     * @return ResponseEntity with SaveAddressResponse and HTTP status
+     * @throws AuthorizationFailedException in cases where the access token is invalid
+     * @throws SaveAddressException in cases where there the address details are invalid
+     * @throws AddressNotFoundException in cases where the state UUID is invalid
+     */
     @CrossOrigin
     @PostMapping(path = "/address", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -91,5 +104,52 @@ public class AddressController {
                 .status("ADDRESS SUCCESSFULLY REGISTERED");
 
         return new ResponseEntity<SaveAddressResponse>(saveAddressResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Controller method for the Get All Saved Addresses endpoint
+     * 
+     * @param access_token Access-token of the customer
+     * @return ResponsEntity with AddressListResponse and HTTP Status
+     * @throws AuthorizationFailedException in cases where the access token is invalid
+     */
+    @CrossOrigin
+    @GetMapping(path = "/address/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<AddressListResponse> getAllSavedAddresses(@RequestHeader("authorization")
+                                                                    final String access_token)
+            throws AuthorizationFailedException{
+        CustomerEntity customerEntity = customerService.getCustomer(access_token);
+
+        List<AddressEntity> initialAddressList = addressService.getAllAddress(customerEntity);
+
+
+        List<AddressList> addressList = new ArrayList<>();
+
+        AddressListResponse addressListResponse = new AddressListResponse();
+
+        if (initialAddressList.size() > 0){
+            for (int i = 0; i < initialAddressList.size(); i++){
+                AddressList addressListEl = new AddressList();
+                String uuid = initialAddressList.get(i).getUuid();
+                String stateUUID = initialAddressList.get(i).getStateEntity().getUuid();
+                AddressListState addressListState = new AddressListState();
+
+                addressListState.setId(UUID.fromString(initialAddressList.get(i).getStateEntity().getUuid()));
+
+                addressListState.setStateName(initialAddressList.get(i).getStateEntity().getState_name());
+
+                addressListEl.setId(UUID.fromString(uuid));
+                addressListEl.setCity(initialAddressList.get(i).getCity());
+                addressListEl.setFlatBuildingName(initialAddressList.get(i).getFlat_buil_number());
+                addressListEl.setLocality(initialAddressList.get(i).getLocality());
+                addressListEl.setPincode(initialAddressList.get(i).getPincode());
+                addressListEl.setState(addressListState);
+                addressListResponse.addAddressesItem(addressListEl);
+            }
+        } else {
+            addressListResponse.setAddresses(Collections.emptyList());
+        }
+
+        return new  ResponseEntity<AddressListResponse>(addressListResponse, HttpStatus.OK);
     }
 }
