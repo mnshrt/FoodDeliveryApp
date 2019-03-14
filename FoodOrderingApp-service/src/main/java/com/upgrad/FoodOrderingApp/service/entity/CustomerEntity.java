@@ -7,6 +7,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * @author Karan Pillai (https://github.com/KaranP3)
+ * Description - Entity class for customer related methods
+ */
+
+
 @Entity
 @Table(name = "customer")
 public class CustomerEntity {
@@ -110,7 +116,6 @@ public class CustomerEntity {
 
     @Override
     public String toString() {
-
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
