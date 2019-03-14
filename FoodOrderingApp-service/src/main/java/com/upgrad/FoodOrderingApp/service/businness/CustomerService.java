@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 
 /**
  * @author Karan Pillai (https://github.com/KaranP3)
- * Description - This class is the Service class for customer related methods.
+ * Description - Service class for customer related methods.
  */
 
 @Service
