@@ -176,4 +176,31 @@ public class AddressController {
 
         return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse, HttpStatus.OK);
     }
+
+    /**
+     * Controller method for Get All States endpoint
+     * @return ResponseEntity with StateListResponse and HTTP status
+     */
+    @CrossOrigin
+    @GetMapping(path = "/states", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<StatesListResponse> getAllStates(){
+        List<StateEntity> stateEntityList = addressService.getAllStates();
+
+        StatesListResponse statesListResponse = new StatesListResponse();
+
+        if (stateEntityList.size() > 0){
+            for (int i = 0; i < stateEntityList.size(); i++){
+                StatesList statesListEl = new StatesList();
+                String uuid = stateEntityList.get(i).getUuid();
+
+                statesListEl.setId(UUID.fromString(uuid));
+                statesListEl.setStateName(stateEntityList.get(i).getState_name());
+                statesListResponse.addStatesItem(statesListEl);
+            }
+        } else {
+            statesListResponse.setStates(Collections.emptyList());
+        }
+
+        return new ResponseEntity<StatesListResponse>(statesListResponse, HttpStatus.OK);
+    }
 }

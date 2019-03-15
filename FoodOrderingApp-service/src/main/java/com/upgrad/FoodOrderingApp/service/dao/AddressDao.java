@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.swing.plaf.nimbus.State;
 import java.util.List;
 
 /**
@@ -75,6 +76,24 @@ public class AddressDao {
         }
     }
 
+    /**
+     * Method to find all states
+     * @return List of all the StateEntity's available in the DB.
+     */
+    public List<StateEntity> findAllStates(){
+        try{
+            String query = "select u from StateEntity u";
+            return entityManager.createQuery(query, StateEntity.class)
+                    .getResultList();
+        } catch(NoResultException nre) {
+            return null;
+        }
+    }
+
+    /**
+     * Method to delete an address by UUID
+     * @param uuid UUID of the address to be deleted
+     */
     public void deleteAddressByUUID(final String uuid){
         String query = "delete from AddressEntity u where u.uuid = :uuid";
         Query finalQuery = entityManager.createQuery(query).setParameter("uuid", uuid);
