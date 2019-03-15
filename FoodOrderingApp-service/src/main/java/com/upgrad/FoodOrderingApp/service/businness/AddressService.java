@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Karan Pillai (https://github.com/KaranP3)
@@ -40,6 +41,14 @@ public class AddressService {
         return addressEntity;
     }
 
+    /**
+     * Method to get state by UUID
+     *
+     * @param uuid UUID of the state
+     * @return StateEntity of the state associated with the UUID
+     * @throws AddressNotFoundException in cases where a state corresponding to the given UUID is
+     * not found
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public StateEntity getStateByUUID(final String uuid) throws AddressNotFoundException {
         StateEntity stateEntity = addressDao.findStateByUUID(uuid);
@@ -51,9 +60,42 @@ public class AddressService {
     }
 
     /**
+     * Method to get address by UUID
+     * @param uuid UUID of the address
+     * @param customerEntity CustomerEntity of the customer
+     * @return AddressEntity corresponding with the UUID param
+     * @throws AddressNotFoundException in cases where the address id is empty or the address is not found in the DB
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public AddressEntity getAddressByUUID(final String uuid, final CustomerEntity customerEntity) throws AddressNotFoundException{
+        String uuidExists = String.valueOf(uuid);
+        if (uuidExists.equals("null") || uuid.isEmpty()){
+            throw new AddressNotFoundException("ANF-005", "Address id can not be empty");
+        }
+
+        AddressEntity addressEntity = addressDao.findAddressByUUID(uuid);
+        if (addressEntity == null){
+            throw new AddressNotFoundException("ANF 003", "No address by this id");
+        } else {
+            return addressEntity;
+        }
+    }
+
+    /**
+     * Method to delete address
+     * @param uuid UUID of the address to be deleted
+     * @return UUID of the address that has been deleted
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UUID deleteAddress(final String uuid){
+        addressDao.deleteAddressByUUID(uuid);
+        return UUID.fromString(uuid);
+    }
+
+    /**
      * Method to get all addresses associated with a given customer
      * @param customerEntity CustomerEntity of the customer
-     * @return List containing AddressEntity of the addresses associated with the customer
+     * @return List containing AddressEntity of the customer
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public List<AddressEntity> getAllAddress(CustomerEntity customerEntity){

@@ -15,10 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,7 +105,7 @@ public class AddressController {
 
     /**
      * Controller method for the Get All Saved Addresses endpoint
-     * 
+     *
      * @param access_token Access-token of the customer
      * @return ResponsEntity with AddressListResponse and HTTP Status
      * @throws AuthorizationFailedException in cases where the access token is invalid
@@ -151,5 +148,32 @@ public class AddressController {
         }
 
         return new  ResponseEntity<AddressListResponse>(addressListResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Controller method for Delete Saved Address endpoint
+     * @param access_token Access-token of the customer
+     * @param address_id UUID of the address to be deleted
+     * @return ResponseEntity with DeleteAddressResponse and HTTP Status
+     * @throws AuthorizationFailedException in cases where the access token is invalid
+     * @throws AddressNotFoundException in cases where the address is not found in the db or the request is invalid
+     */
+    @CrossOrigin
+    @DeleteMapping(path = "/address/{address_id}")
+    public ResponseEntity<DeleteAddressResponse> deleteSavedAddress(@RequestHeader("authorization")
+                                                                    final String access_token,
+                                                                    @PathVariable String address_id)
+            throws AuthorizationFailedException, AddressNotFoundException{
+        CustomerEntity customerEntity = customerService.getCustomer(access_token);
+        AddressEntity addressEntity = addressService.getAddressByUUID(address_id, customerEntity);
+
+        UUID deleteId = addressService.deleteAddress(address_id);
+
+
+        DeleteAddressResponse deleteAddressResponse = new DeleteAddressResponse();
+        deleteAddressResponse.setId(deleteId);
+        deleteAddressResponse.status("ADDRESS DELETED SUCCESSFULLY");
+
+        return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse, HttpStatus.OK);
     }
 }

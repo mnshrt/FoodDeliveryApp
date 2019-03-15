@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -49,6 +50,16 @@ public class AddressDao {
         }
     }
 
+    public AddressEntity findAddressByUUID(String uuid){
+        try {
+            String query = "select u from AddressEntity u where u.uuid = :uuid";
+            return entityManager.createQuery(query, AddressEntity.class)
+                    .setParameter("uuid", uuid).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
     /**
      * Method to find all addresses associated with a given customer
      * @param id Id of the customer
@@ -62,5 +73,11 @@ public class AddressDao {
         } catch(NoResultException nre){
             return null;
         }
+    }
+
+    public void deleteAddressByUUID(final String uuid){
+        String query = "delete from AddressEntity u where u.uuid = :uuid";
+        Query finalQuery = entityManager.createQuery(query).setParameter("uuid", uuid);
+        finalQuery.executeUpdate();
     }
 }
