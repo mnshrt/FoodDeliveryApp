@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,5 +112,18 @@ public class AddressService {
             }
         }
         return finalAddressList;
+    }
+
+    /**
+     * Method to get all states
+     * @return List containing all StateEntity's in the DB
+     */
+    public List<StateEntity> getAllStates(){
+        List<StateEntity> stateEntityList = addressDao.findAllStates();
+        if (stateEntityList == null){
+            return Collections.emptyList();
+        } else {
+            return stateEntityList;
+        }
     }
 }
