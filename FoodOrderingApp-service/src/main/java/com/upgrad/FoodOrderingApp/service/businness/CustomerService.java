@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 /**
  * @author Karan Pillai (https://github.com/KaranP3)
@@ -158,7 +159,7 @@ public class CustomerService {
 
             CustomerAuthEntity customerAuthTokenEntity = new CustomerAuthEntity();
             customerAuthTokenEntity.setCustomer(customerEntity);
-            customerAuthTokenEntity.setUuid(customerEntity.getUuid());
+            customerAuthTokenEntity.setUuid(UUID.randomUUID().toString());
 
             final ZonedDateTime currentTime = ZonedDateTime.now();
             final ZonedDateTime expiryTime = currentTime.plusHours(8);

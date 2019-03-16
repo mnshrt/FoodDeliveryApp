@@ -7,6 +7,7 @@ import com.upgrad.FoodOrderingApp.service.entity.CustomerAddressEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.entity.StateEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AddressNotFoundException;
+import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.SaveAddressException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,8 @@ public class AddressService {
      * @throws AddressNotFoundException in cases where the address id is empty or the address is not found in the DB
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public AddressEntity getAddressByUUID(final String uuid, final CustomerEntity customerEntity) throws AddressNotFoundException{
+    public AddressEntity getAddressByUUID(final String uuid, final CustomerEntity customerEntity) throws
+            AddressNotFoundException, AuthorizationFailedException{
         String uuidExists = String.valueOf(uuid);
         if (uuidExists.equals("null") || uuid.isEmpty()){
             throw new AddressNotFoundException("ANF-005", "Address id can not be empty");
@@ -77,6 +79,11 @@ public class AddressService {
         AddressEntity addressEntity = addressDao.findAddressByUUID(uuid);
         if (addressEntity == null){
             throw new AddressNotFoundException("ANF 003", "No address by this id");
+        }
+
+        List<AddressEntity> addressEntityList = getAllAddress(customerEntity);
+        if (!addressEntityList.contains(addressEntity)){
+            throw new AuthorizationFailedException("ATHR-004", "You are not authorized to view/update/delete any one else's address ");
         } else {
             return addressEntity;
         }
