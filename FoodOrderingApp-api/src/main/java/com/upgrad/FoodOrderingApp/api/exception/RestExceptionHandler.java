@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.xml.ws.Response;
+
 /**
  * Description - ExceptionHandler for all the exceptions to be implemented.
  */
@@ -125,6 +127,16 @@ public class RestExceptionHandler {
                 .code(ex.getCode())
                 .message(ex.getErrorMessage()),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(CouponNotFoundException.class)
+    public ResponseEntity<ErrorResponse> couponNotFoundException(CouponNotFoundException ex,
+                                                                 WebRequest request){
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse()
+                .code(ex.getCode())
+                .message(ex.getErrorMessage()),
+                HttpStatus.FORBIDDEN
         );
     }
 }
