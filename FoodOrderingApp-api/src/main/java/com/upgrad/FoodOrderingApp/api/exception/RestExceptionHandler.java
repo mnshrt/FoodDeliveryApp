@@ -130,13 +130,4 @@ public class RestExceptionHandler {
         );
     }
 
-    @ExceptionHandler(CouponNotFoundException.class)
-    public ResponseEntity<ErrorResponse> couponNotFoundException(CouponNotFoundException ex,
-                                                                 WebRequest request){
-        return new ResponseEntity<ErrorResponse>(new ErrorResponse()
-                .code(ex.getCode())
-                .message(ex.getErrorMessage()),
-                HttpStatus.FORBIDDEN
-        );
-    }
 }
