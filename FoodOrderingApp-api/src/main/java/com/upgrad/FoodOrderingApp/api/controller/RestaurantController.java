@@ -93,6 +93,6 @@ public class RestaurantController {
     public ResponseEntity<RestaurantUpdatedResponse> updateRestaurantDetails(@PathVariable String restaurant_id){
 
     }
-    /item/restaurant/{restaurant_id}
+
     */
 }
