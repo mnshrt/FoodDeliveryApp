@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="78182a14-2612-4b5f-a676-24593f13d7f4" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/AddressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/AddressService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/CustomerController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/FoodOrderingApp-api/target/" />
@@ -27,7 +26,7 @@
       <file leaf-file-name="AddressDao.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/dao/AddressDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
+            <state relative-caret-position="67">
               <caret line="91" selection-start-line="91" selection-end-line="91" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -36,23 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomerController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CustomerController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/CustomerController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CustomerService.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/CustomerService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
+            <state relative-caret-position="120">
+              <caret line="151" column="51" lean-forward="true" selection-start-line="151" selection-start-column="51" selection-end-line="151" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -63,7 +50,7 @@
       <file leaf-file-name="AddressControllerTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/test/java/com/upgrad/FoodOrderingApp/api/controller/AddressControllerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="4200">
               <caret line="280" column="43" selection-start-line="280" selection-start-column="43" selection-end-line="280" selection-end-column="43" />
             </state>
           </provider>
@@ -72,8 +59,8 @@
       <file leaf-file-name="AddressService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/AddressService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="84" column="46" lean-forward="true" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
+            <state relative-caret-position="990">
+              <caret line="84" column="46" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -84,8 +71,8 @@
       <file leaf-file-name="AddressController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/AddressController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="69" column="66" lean-forward="true" selection-start-line="69" selection-start-column="66" selection-end-line="69" selection-end-column="66" />
+            <state relative-caret-position="-1657">
+              <caret line="73" column="47" selection-start-line="73" selection-start-column="47" selection-end-line="73" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -124,7 +111,6 @@
         <option value="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/AuthenticationService.java" />
         <option value="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/entity/CustomerAuthEntity.java" />
         <option value="$PROJECT_DIR$/FoodOrderingApp-api/src/test/java/com/upgrad/FoodOrderingApp/api/controller/CustomerControllerTest.java" />
-        <option value="$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/CustomerController.java" />
         <option value="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/entity/CustomerEntity.java" />
         <option value="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/entity/StateEntity.java" />
         <option value="$PROJECT_DIR$/FoodOrderingApp-api/src/test/java/com/upgrad/FoodOrderingApp/api/controller/AddressControllerTest.java" />
@@ -136,6 +122,7 @@
         <option value="$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/AddressController.java" />
         <option value="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/AddressService.java" />
         <option value="$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/CustomerService.java" />
+        <option value="$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/CustomerController.java" />
       </list>
     </option>
   </component>
@@ -163,6 +150,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -286,7 +274,6 @@
         </subPane>
       </pane>
       <pane id="AndroidView" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -494,7 +481,8 @@
       <workItem from="1551889051893" duration="761000" />
       <workItem from="1551954657277" duration="2796000" />
       <workItem from="1551974392529" duration="64223000" />
-      <workItem from="1552764868339" duration="1545000" />
+      <workItem from="1552764868339" duration="2552000" />
+      <workItem from="1552895152469" duration="1363000" />
     </task>
     <servers />
   </component>
@@ -531,11 +519,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118873000" />
+    <option name="totallyTimeSpent" value="121243000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="45" y="32" width="1235" height="710" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
@@ -555,30 +542,31 @@
       <window_info anchor="bottom" id="Java Enterprise" order="9" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Version Control" order="11" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.37457627" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.37457627" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3220339" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49830508" visible="true" weight="0.22296731" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3220339" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49830508" visible="true" weight="0.2263202" />
       <window_info anchor="right" id="Bean Validation" order="8" weight="0.3285834" />
       <window_info id="Web" order="6" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="right" id="Coverage" order="10" side_tool="true" weight="0.32931036" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.0" />
+      <window_info anchor="right" id="Coverage" order="10" side_tool="true" weight="0.32931036" />
     </layout>
     <layout-to-restore>
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="bottom" id="Spring" order="7" />
       <window_info id="Image Layers" order="3" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.36772045" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" id="Coverage" order="0" side_tool="true" weight="0.32931036" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32445922" />
@@ -601,7 +589,6 @@
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Coverage" order="0" side_tool="true" weight="0.32931036" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.0" />
       <window_info anchor="right" id="Bean Validation" order="9" weight="0.32931036" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3986711" />
@@ -934,9 +921,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/test/java/com/upgrad/FoodOrderingApp/api/controller/AddressControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4200">
+          <caret line="280" column="43" selection-start-line="280" selection-start-column="43" selection-end-line="280" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/AddressService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="84" column="46" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/CustomerService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2490">
+          <caret line="166" column="64" lean-forward="true" selection-start-line="166" selection-start-column="64" selection-end-line="166" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/AddressController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1657">
+          <caret line="73" column="47" selection-start-line="73" selection-start-column="47" selection-end-line="73" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/dao/AddressDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
+        <state relative-caret-position="67">
           <caret line="91" selection-start-line="91" selection-end-line="91" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -946,45 +967,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/CustomerController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/main/java/com/upgrad/FoodOrderingApp/api/controller/AddressController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="69" column="66" lean-forward="true" selection-start-line="69" selection-start-column="66" selection-end-line="69" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-api/src/test/java/com/upgrad/FoodOrderingApp/api/controller/AddressControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="280" column="43" selection-start-line="280" selection-start-column="43" selection-end-line="280" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/AddressService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="84" column="46" lean-forward="true" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FoodOrderingApp-service/src/main/java/com/upgrad/FoodOrderingApp/service/businness/CustomerService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
+        <state relative-caret-position="120">
+          <caret line="151" column="51" lean-forward="true" selection-start-line="151" selection-start-column="51" selection-end-line="151" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
