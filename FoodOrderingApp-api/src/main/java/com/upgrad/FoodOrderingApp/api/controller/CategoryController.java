@@ -1,10 +1,7 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
 
-import com.upgrad.FoodOrderingApp.api.model.CategoryDetailsResponse;
-import com.upgrad.FoodOrderingApp.api.model.CategoryList;
-import com.upgrad.FoodOrderingApp.api.model.CategoryListResponse;
-import com.upgrad.FoodOrderingApp.api.model.ItemList;
+import com.upgrad.FoodOrderingApp.api.model.*;
 import com.upgrad.FoodOrderingApp.service.businness.CategoryItemService;
 import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.businness.ItemService;
@@ -39,7 +36,7 @@ public class CategoryController {
     ItemService itemService;
 
     @GetMapping(path = "/category/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<CategoryListResponse>> getAllCategories() {
+    public ResponseEntity<CategoriesListResponse> getAllCategories() {
 
         List<CategoryEntity> categoryEntityList = categoryService.getAllCategories();
 
@@ -56,7 +53,7 @@ public class CategoryController {
 
         }
 
-        return new ResponseEntity<>(categoriesResponseList, HttpStatus.OK);
+        return new ResponseEntity<>(new CategoriesListResponse().categories(categoriesResponseList), HttpStatus.OK);
 
     }
 
