@@ -130,6 +130,9 @@ public class RestExceptionHandler {
         );
     }
 
+    /**
+     * Method that implements the exception handler for CouponNotFoundException
+     */
 
     @ExceptionHandler(CouponNotFoundException.class)
     public ResponseEntity<ErrorResponse> couponNotFoundException(CouponNotFoundException ex,
@@ -141,7 +144,9 @@ public class RestExceptionHandler {
         );
     }
 
-
+    /**
+     * Method that implements the exception handler for RestaurantNotFoundException
+     */
     @ExceptionHandler(RestaurantNotFoundException.class)
     public ResponseEntity<ErrorResponse> restaurantNotFoundException(RestaurantNotFoundException ex,
                                                                      WebRequest request) {
@@ -151,6 +156,10 @@ public class RestExceptionHandler {
                 HttpStatus.NOT_FOUND
         );
     }
+
+    /**
+     * Method that implements the exception handler for InvalidRatingException
+     */
 
     @ExceptionHandler(InvalidRatingException.class)
     public ResponseEntity<ErrorResponse> invalidRatingException(InvalidRatingException ex,
@@ -162,6 +171,9 @@ public class RestExceptionHandler {
         );
     }
 
+    /**
+     * Method that implements the exception handler for CategoryNotFoundException
+     */
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<ErrorResponse> categoryNotFoundException(CategoryNotFoundException ex,
                                                                    WebRequest request) {
@@ -172,6 +184,9 @@ public class RestExceptionHandler {
         );
     }
 
+    /**
+     * Method that implements the exception handler for ItemNotFoundException
+     */
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<ErrorResponse> itemNotFoundException(ItemNotFoundException ex,
                                                                WebRequest request) {
