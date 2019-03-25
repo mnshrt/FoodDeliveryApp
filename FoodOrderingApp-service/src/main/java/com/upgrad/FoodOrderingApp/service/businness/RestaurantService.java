@@ -24,4 +24,25 @@ public class RestaurantService {
 
 
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<RestaurantEntity> getAllRestaurantsByName(String name) {
+
+        return restaurantDao.getAllRestaurantsByName(name);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public RestaurantEntity getRestaurantById(String rUuid) {
+        return restaurantDao.getRestaurantById(rUuid);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public RestaurantEntity getRestaurantByRestaurantId(RestaurantEntity re) {
+        return restaurantDao.getRestaurantByRestaurantId(re);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public RestaurantEntity updateRestaurantDetails(RestaurantEntity re) {
+        return restaurantDao.updateRestaurantDetails(re);
+    }
 }

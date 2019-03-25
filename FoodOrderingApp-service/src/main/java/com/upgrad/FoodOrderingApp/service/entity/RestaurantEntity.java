@@ -53,8 +53,9 @@ public class RestaurantEntity {
         this.numberOfCustomersRated = numberOfCustomersRated;
     }
 
-    @OneToOne
-    @JoinColumn(name = "address_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @NotNull
     private AddressEntity address;
 
     public Integer getId() {
@@ -118,10 +119,6 @@ public class RestaurantEntity {
         return new EqualsBuilder().append(this, obj).isEquals();
     }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this).hashCode();
-    }
 
     @Override
     public String toString() {

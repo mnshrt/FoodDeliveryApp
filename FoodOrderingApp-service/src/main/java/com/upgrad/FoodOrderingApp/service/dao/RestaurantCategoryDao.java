@@ -32,4 +32,19 @@ public class RestaurantCategoryDao {
             return new ArrayList<RestaurantCategoryEntity>();
         }
     }
+
+    public List<RestaurantCategoryEntity> getAllRestaurantsByCategory(CategoryEntity categoryEntity) {
+        try {
+            List restaurantcategory = new ArrayList();
+            String query = "select r from RestaurantCategoryEntity r where r.category = :userInput";
+            restaurantcategory = entityManager.createQuery(query, RestaurantCategoryEntity.class)
+                    .setParameter("userInput", categoryEntity).getResultList();
+
+            return restaurantcategory;
+
+        } catch (NoResultException nre) {
+
+            return new ArrayList<RestaurantCategoryEntity>();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.upgrad.FoodOrderingApp.service.dao;
 
+import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import org.springframework.stereotype.Repository;
 
@@ -31,9 +32,9 @@ public class RestaurantDao {
     }
 
 
-    public List<RestaurantEntity> getRestaurantByName(String restaurantName) {
+    public List<RestaurantEntity> getAllRestaurantsByName(String restaurantName) {
         try {
-            String query = "select r from RestaurantEntity r where r.restaurant like :name order by r.customer_rating desc";
+            String query = "select r from RestaurantEntity r where r.restaurantName like :name order by r.customerRating desc";
             return entityManager.createQuery(query, RestaurantEntity.class)
                     .setParameter("name", '%' + restaurantName + '%').getResultList();
 
@@ -65,21 +66,20 @@ public class RestaurantDao {
     }
 
 
-/*
-        public List<RestaurantEntity> getRestaurantByCategoryId(CategoryEntity categoryEntity) {
+    public RestaurantEntity getRestaurantByRestaurantId(RestaurantEntity restaurantEntity) {
 
 
             try {
 
-                String query = "select u from RestaurantEntity u where u.user = :categoryInput";
+                String query = "select u from RestaurantEntity u where u.id = :userInput";
                 return entityManager.createQuery(query, RestaurantEntity.class)
-                        .setParameter("categoryInput", categoryEntity).getResultList();
+                        .setParameter("userInput", restaurantEntity.getId()).getSingleResult();
 
             } catch (NoResultException nre) {
 
-                return new ArrayList<RestaurantEntity>();
+                return null;
             }
-        }*/
+    }
 
 
 }

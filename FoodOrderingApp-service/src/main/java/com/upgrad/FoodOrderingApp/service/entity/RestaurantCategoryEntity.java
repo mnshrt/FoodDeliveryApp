@@ -19,10 +19,6 @@ public class RestaurantCategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "uuid")
-    @Size(max = 200)
-    private String uuid;
-
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
@@ -40,13 +36,6 @@ public class RestaurantCategoryEntity {
         this.id = id;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public RestaurantEntity getRestaurantEntity() {
         return restaurant;
@@ -69,10 +58,6 @@ public class RestaurantCategoryEntity {
         return new EqualsBuilder().append(this, obj).isEquals();
     }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this).hashCode();
-    }
 
     @Override
     public String toString() {

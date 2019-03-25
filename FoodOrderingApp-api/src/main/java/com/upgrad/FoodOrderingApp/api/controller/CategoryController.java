@@ -84,8 +84,7 @@ public class CategoryController {
                     itemList.setItemName(itemEntity.getItemName());
                     itemList.setPrice(itemEntity.getPrice());
 
-                    //resolve this part
-                    // itemList.ItemTypeEnum(itemEntity.getType());
+                    itemList.setItemType(ItemList.ItemTypeEnum.valueOf(itemEntity.getType()));
                     itemListForCategory.add(itemList);
 
                 }

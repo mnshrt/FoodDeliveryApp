@@ -66,7 +66,11 @@ public class ItemEntity {
     }
 
     public String getType() {
-        return type;
+        if (type.equals("0")) {
+            return "VEG";
+        } else {
+            return "NON_VEG";
+        }
     }
 
     public void setType(String type) {

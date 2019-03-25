@@ -5,6 +5,8 @@ import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,11 +16,13 @@ public class CategoryService {
     @Autowired
     CategoryDao categoryDao;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<CategoryEntity> getAllCategories() {
 
         return categoryDao.getAllCategories();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public CategoryEntity getCategoryById(String category_id) {
 
         return categoryDao.getCategoryById(category_id);

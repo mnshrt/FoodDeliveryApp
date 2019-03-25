@@ -32,6 +32,16 @@ public class AddressService {
     @Autowired
     AddressDao addressDao;
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public StateEntity getStateById(StateEntity getStateById) {
+        return addressDao.getStateById(getStateById);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public AddressEntity getAddressById(AddressEntity address) {
+        return addressDao.getAddressById(address);
+    }
+
     /**
      * Method to save address
      * @param addressEntity AddressEntity to be created

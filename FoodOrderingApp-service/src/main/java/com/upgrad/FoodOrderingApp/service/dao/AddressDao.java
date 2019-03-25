@@ -99,4 +99,27 @@ public class AddressDao {
         Query finalQuery = entityManager.createQuery(query).setParameter("uuid", uuid);
         finalQuery.executeUpdate();
     }
+
+    public AddressEntity getAddressById(AddressEntity address) {
+
+        try {
+            String query = "select u from AddressEntity u where u.id = :userInput";
+            return entityManager.createQuery(query, AddressEntity.class)
+                    .setParameter("userInput", address.getId()).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public StateEntity getStateById(StateEntity state) {
+
+
+        try {
+            String query = "select u from StateEntity u where u.id= :userInput";
+            return entityManager.createQuery(query, StateEntity.class)
+                    .setParameter("userInput", state.getId()).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 }
