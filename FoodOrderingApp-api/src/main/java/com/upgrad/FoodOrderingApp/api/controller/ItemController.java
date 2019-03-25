@@ -49,6 +49,7 @@ public class ItemController {
 
         Map<ItemEntity, Integer> idPriceMap = new HashMap<>();
         for (RestaurantItemEntity r : restaurantItemEntities) {
+
             OrderItemEntity orderItemEntity = orderItemService.getOrderItemEntityByItem(r.getItem());
             idPriceMap.put(orderItemEntity.getItem(), orderItemEntity.getPrice());
         }

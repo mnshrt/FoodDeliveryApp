@@ -40,4 +40,9 @@ public class OrderItemDao {
             return null;
         }
     }
+
+    public OrderItemEntity saveOrderItemEntity(OrderItemEntity orderItemEntity) {
+        entityManager.persist(orderItemEntity);
+        return orderItemEntity;
+    }
 }

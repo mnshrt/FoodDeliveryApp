@@ -119,6 +119,18 @@ public class OrderController {
         //persist order
         orderService.saveOrder(orderEntity);
 
+        OrderItemEntity orderItemEntity = new OrderItemEntity();
+        // Add order item details
+        for (ItemQuantity iq : itemQuantities) {
+            ItemEntity itemEntity = itemService.getItemByUuid(iq.getItemId());
+            orderItemEntity.setOrder(orderEntity);
+            orderItemEntity.setPrice(iq.getPrice());
+            orderItemEntity.setItem(itemEntity);
+            orderItemEntity.setQuantity(iq.getQuantity());
+            orderItemService.saveOrder(orderItemEntity);
+        }
+
+
         // Return response
         SaveOrderResponse saveOrderResponse = new SaveOrderResponse();
 

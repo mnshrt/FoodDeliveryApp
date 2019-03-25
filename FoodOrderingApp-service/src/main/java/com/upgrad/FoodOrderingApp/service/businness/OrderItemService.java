@@ -23,7 +23,13 @@ public class OrderItemService {
         return orderItemDao.getOrderItemEntityByItem(item);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<OrderItemEntity> getOrderItemEntityByOrderId(int id) {
         return orderItemDao.getOrderItemEntityByOrderId(id);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public OrderItemEntity saveOrder(OrderItemEntity orderItemEntity) {
+        return orderItemDao.saveOrderItemEntity(orderItemEntity);
     }
 }
