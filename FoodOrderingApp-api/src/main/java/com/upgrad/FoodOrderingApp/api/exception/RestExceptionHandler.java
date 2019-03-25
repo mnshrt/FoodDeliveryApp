@@ -21,7 +21,7 @@ public class RestExceptionHandler {
      * Method that implements the exception handler for the SignUpRestrictedException.
      *
      * @author Karan Pillai (https://github.com/KaranP3)
-     *
+
      * @param ex      instance of SignUpRestrictedException
      * @param request instance of WebRequest
      * @return ResponseEntity with the error response
