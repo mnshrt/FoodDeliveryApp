@@ -172,5 +172,15 @@ public class RestExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ErrorResponse> itemNotFoundException(ItemNotFoundException ex,
+                                                               WebRequest request) {
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse()
+                .code(ex.getCode())
+                .message(ex.getErrorMessage()),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
 
 }

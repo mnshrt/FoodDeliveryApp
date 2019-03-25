@@ -25,4 +25,15 @@ public class OrderItemDao {
             return null;
         }
     }
+
+    public List<OrderItemEntity> getOrderItemEntityByOrderId(int id) {
+
+        try {
+            String query = "select u from OrderItemEntity u where u.item = :userInput";
+            return entityManager.createQuery(query, OrderItemEntity.class)
+                    .setParameter("userInput", id).getResultList();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 }

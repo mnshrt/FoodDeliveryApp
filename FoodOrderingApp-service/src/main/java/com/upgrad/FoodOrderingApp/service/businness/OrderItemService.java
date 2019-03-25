@@ -22,4 +22,8 @@ public class OrderItemService {
     public OrderItemEntity getOrderItemEntityByItem(ItemEntity item) {
         return orderItemDao.getOrderItemEntityByItem(item);
     }
+
+    public List<OrderItemEntity> getOrderItemEntityByOrderId(int id) {
+        return orderItemDao.getOrderItemEntityByOrderId(id);
+    }
 }

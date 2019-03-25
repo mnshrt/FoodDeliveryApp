@@ -1,15 +1,9 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
 import com.upgrad.FoodOrderingApp.api.model.*;
-import com.upgrad.FoodOrderingApp.service.businness.AddressService;
-import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
-import com.upgrad.FoodOrderingApp.service.businness.OrderService;
-import com.upgrad.FoodOrderingApp.service.businness.PaymentService;
+import com.upgrad.FoodOrderingApp.service.businness.*;
 import com.upgrad.FoodOrderingApp.service.entity.*;
-import com.upgrad.FoodOrderingApp.service.exception.AddressNotFoundException;
-import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
-import com.upgrad.FoodOrderingApp.service.exception.CouponNotFoundException;
-import com.upgrad.FoodOrderingApp.service.exception.PaymentMethodNotFoundException;
+import com.upgrad.FoodOrderingApp.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +32,16 @@ public class OrderController {
 
     @Autowired
     PaymentService paymentService;
+
+    @Autowired
+    OrderItemService orderItemService;
+
+    @Autowired
+    ItemService itemService;
+
+    @Autowired
+    RestaurantService restaurantService;
+
 
 
     @CrossOrigin
@@ -71,7 +75,7 @@ public class OrderController {
     public ResponseEntity<SaveOrderResponse> saveOrder(@RequestHeader final String access_token,
                                                        final SaveOrderRequest saveOrderRequest)
             throws AuthorizationFailedException, CouponNotFoundException, AddressNotFoundException,
-            PaymentMethodNotFoundException {
+            PaymentMethodNotFoundException, RestaurantNotFoundException, ItemNotFoundException {
         // Authorize (also handles authorization related exceptions)
         CustomerEntity customerEntity = customerService.getCustomer(access_token);
 
@@ -86,8 +90,16 @@ public class OrderController {
         PaymentEntity paymentEntity = paymentService.getPaymentByUUID(saveOrderRequest.getPaymentId().toString());
 
         // Handle restaurant exception
-
+        RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(saveOrderRequest.getRestaurantId().toString());
         // Handle item exception
+
+        List<ItemQuantity> itemQuantities = saveOrderRequest.getItemQuantities();
+        for (ItemQuantity iq : itemQuantities) {
+
+            ItemEntity itemEntity = itemService.getItemByUuid(iq.getItemId());
+
+        }
+
 
         // Create OrderEntity to persist
         OrderEntity orderEntity = new OrderEntity();
@@ -102,6 +114,7 @@ public class OrderController {
         orderEntity.setDiscount(saveOrderRequest.getDiscount());
         orderEntity.setDate(ZonedDateTime.now());
         // set restaurant id here
+        orderEntity.setRestaurant_id(restaurantEntity.getId());
 
 
         // Return response
@@ -117,7 +130,7 @@ public class OrderController {
     @CrossOrigin
     @GetMapping(path = "/order", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomerOrderResponse> getOrdersByCustomer(@RequestHeader("authorization") final String access_token)
-            throws AuthorizationFailedException {
+            throws AuthorizationFailedException, ItemNotFoundException {
         CustomerEntity customerEntity = customerService.getCustomer(access_token);
 
         List<OrderEntity> orderEntityList = orderService.getOrdersByCustomer(customerEntity.getId());
@@ -166,7 +179,20 @@ public class OrderController {
                 orderListPayment.setPaymentName(orderEntityList.get(i).getPaymentEntity().getPayment_name());
 
                 // Item quantity
-                List<ItemQuantityResponse> itemQuantityResponseList = Collections.emptyList(); // Need to change this!
+                List<ItemQuantityResponse> itemQuantityResponseList = new ArrayList<>();
+                List<OrderItemEntity> orderItemEntities = orderItemService.getOrderItemEntityByOrderId(orderEntityList.get(i).getId());
+                for (OrderItemEntity or : orderItemEntities) {
+
+                    ItemEntity itemEntity = itemService.getItemById(or.getItem());
+                    ItemQuantityResponseItem itemQuantityResponseItem = new ItemQuantityResponseItem()
+                            .id(UUID.fromString(itemEntity.getUuid())).itemPrice(itemEntity.getPrice())
+                            .itemName(itemEntity.getItemName())
+                            .type(ItemQuantityResponseItem.TypeEnum.fromValue(itemEntity.getType()));
+                    ItemQuantityResponse itemQuantityResponse = new ItemQuantityResponse()
+                            .item(itemQuantityResponseItem).quantity(or.getQuantity()).price(or.getPrice());
+                    itemQuantityResponseList.add(itemQuantityResponse);
+                }
+
 
 
                 orderList.setAddress(orderListAddress);
