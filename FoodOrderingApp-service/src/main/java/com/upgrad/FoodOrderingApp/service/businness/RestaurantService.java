@@ -11,8 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - Service class for the Restaurant related methods
+ */
 @Service
 public class RestaurantService {
+
 
     @Autowired
     RestaurantDao restaurantDao;

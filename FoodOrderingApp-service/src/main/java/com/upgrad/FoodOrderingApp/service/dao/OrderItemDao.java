@@ -10,6 +10,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - DAO class with operations for the order_item table
+ */
 @Repository
 public class OrderItemDao {
     @PersistenceContext
@@ -29,7 +33,7 @@ public class OrderItemDao {
     public List<OrderItemEntity> getOrderItemEntityByOrderId(int id) {
 
         try {
-            String query = "select u from OrderItemEntity u where u.item = :userInput";
+            String query = "select u from OrderItemEntity u where u.order.id = :userInput";
             return entityManager.createQuery(query, OrderItemEntity.class)
                     .setParameter("userInput", id).getResultList();
         } catch (NoResultException nre) {

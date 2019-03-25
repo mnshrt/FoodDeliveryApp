@@ -13,7 +13,10 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-
+    /**
+     * @author Manish Rout (https://github.com/mnshrt)
+     * Description - Service class for the Restaurant related methods
+     */
     @Autowired
     CategoryDao categoryDao;
 

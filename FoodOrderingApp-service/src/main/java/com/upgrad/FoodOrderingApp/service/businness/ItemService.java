@@ -28,7 +28,7 @@ public class ItemService {
     }
 
     public ItemEntity getItemByUuid(UUID itemId) throws ItemNotFoundException {
-        ItemEntity itemEntity1 = itemDao.getItemByUuid(itemId);
+        ItemEntity itemEntity1 = itemDao.getItemByUuid(itemId.toString());
         if (itemEntity1 == null) {
             throw new ItemNotFoundException("INF-003", "No item by this id exist");
         } else {

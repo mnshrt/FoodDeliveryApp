@@ -9,7 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - Entity class for the restaurant_category table
+ */
 @Entity
 @Table(name = "restaurant_category")
 public class RestaurantCategoryEntity {

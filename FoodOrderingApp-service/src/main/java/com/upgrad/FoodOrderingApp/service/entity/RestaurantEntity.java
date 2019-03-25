@@ -10,6 +10,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - Entity class for the restaurant table
+ */
 @Entity
 @Table(name = "restaurant")
 public class RestaurantEntity {

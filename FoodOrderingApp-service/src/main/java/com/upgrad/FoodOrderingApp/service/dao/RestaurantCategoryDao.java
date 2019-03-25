@@ -11,6 +11,10 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - DAO class with operations for the restaurant_category table
+ */
 @Repository
 public class RestaurantCategoryDao {
 

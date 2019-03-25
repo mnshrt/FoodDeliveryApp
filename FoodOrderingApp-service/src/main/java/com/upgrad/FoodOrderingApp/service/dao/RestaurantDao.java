@@ -10,6 +10,10 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - DAO class with operations for the restaurant table
+ */
 @Repository
 public class RestaurantDao {
 
@@ -69,16 +73,16 @@ public class RestaurantDao {
     public RestaurantEntity getRestaurantById(RestaurantEntity restaurantEntity) {
 
 
-            try {
+        try {
 
-                String query = "select u from RestaurantEntity u where u.id = :userInput";
-                return entityManager.createQuery(query, RestaurantEntity.class)
-                        .setParameter("userInput", restaurantEntity.getId()).getSingleResult();
+            String query = "select u from RestaurantEntity u where u.id = :userInput";
+            return entityManager.createQuery(query, RestaurantEntity.class)
+                    .setParameter("userInput", restaurantEntity.getId()).getSingleResult();
 
-            } catch (NoResultException nre) {
+        } catch (NoResultException nre) {
 
-                return null;
-            }
+            return null;
+        }
     }
 
 

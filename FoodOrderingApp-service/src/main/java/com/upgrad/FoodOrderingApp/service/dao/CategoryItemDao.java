@@ -10,6 +10,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - DAO class with operations for the category_item table
+ */
 @Repository
 public class CategoryItemDao {
     @PersistenceContext

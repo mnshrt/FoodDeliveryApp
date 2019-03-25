@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -36,36 +37,40 @@ public class ItemController {
     @Autowired
     RestaurantItemService restaurantItemService;
 
+
+    // controller method for the getting top 5 items
+    @CrossOrigin
     @GetMapping(path = "/item/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ItemList>> getTopFiveItemsByPopularity(@PathVariable String restaurant_id)
             throws RestaurantNotFoundException {
-        RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(restaurant_id);
+        RestaurantEntity restaurantEntity = restaurantService.getRestaurantByUuid(restaurant_id);
 
-            List<RestaurantItemEntity> restaurantItemEntities = restaurantItemService.getItemsByRestaurant(restaurantEntity);
+        List<RestaurantItemEntity> restaurantItemEntities = restaurantItemService.getItemsByRestaurant(restaurantEntity);
 
-            Map<ItemEntity, Integer> idPriceMap = new HashMap<>();
-            for (RestaurantItemEntity r : restaurantItemEntities) {
-                OrderItemEntity orderItemEntity = orderItemService.getOrderItemEntityByItem(r.getItem());
-                idPriceMap.put(orderItemEntity.getItem(), orderItemEntity.getPrice());
+        Map<ItemEntity, Integer> idPriceMap = new HashMap<>();
+        for (RestaurantItemEntity r : restaurantItemEntities) {
+            OrderItemEntity orderItemEntity = orderItemService.getOrderItemEntityByItem(r.getItem());
+            idPriceMap.put(orderItemEntity.getItem(), orderItemEntity.getPrice());
+        }
+
+        List<ItemEntity> itemEntities = getSortedItemList(idPriceMap);
+        List<ItemList> itemListList = new ArrayList<>();
+        for (ItemEntity ie : itemEntities) {
+            int i = 0;
+            while (i < 5) {
+                ItemList itemQuantityResponseItem = new ItemList()
+                        .itemName(ie.getItemName()).price(ie.getPrice()).id(UUID.fromString(ie.getUuid()))
+                        .itemType(ItemList.ItemTypeEnum.fromValue(ie.getType()));
+                itemListList.add(itemQuantityResponseItem);
+                i++;
             }
-
-            List<ItemEntity> itemEntities = getSortedItemList(idPriceMap);
-            List<ItemList> itemListList = new ArrayList<>();
-            for (ItemEntity ie : itemEntities) {
-                int i = 0;
-                while (i < 5) {
-                    ItemList itemQuantityResponseItem = new ItemList()
-                            .itemName(ie.getItemName()).price(ie.getPrice()).id(UUID.fromString(ie.getUuid()))
-                            .itemType(ItemList.ItemTypeEnum.fromValue(ie.getType()));
-                    itemListList.add(itemQuantityResponseItem);
-                    i++;
-                }
-            }
-            return new ResponseEntity<>(itemListList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(itemListList, HttpStatus.OK);
 
 
     }
 
+    // utility method to sort based on quantity
     private List<ItemEntity> getSortedItemList(Map<ItemEntity, Integer> unsortMap) {
         List<ItemEntity> itemEntityList = new ArrayList<>();
         Set<Entry<ItemEntity, Integer>> set = unsortMap.entrySet();

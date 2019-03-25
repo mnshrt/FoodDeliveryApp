@@ -32,7 +32,7 @@ public class ItemDao {
         }
     }
 
-    public ItemEntity getItemByUuid(UUID itemId) {
+    public ItemEntity getItemByUuid(String itemId) {
         try {
 
             String query = "select u from ItemEntity u where u.uuid = :userInput";

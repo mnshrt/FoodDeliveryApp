@@ -4,6 +4,11 @@ package com.upgrad.FoodOrderingApp.service.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+/**
+ * @author Manish Rout (https://github.com/mnshrt)
+ * Description - Entity class for the category_item table
+ */
+
 @Entity
 @Table(name = "category_item")
 public class CategoryItemEntity {

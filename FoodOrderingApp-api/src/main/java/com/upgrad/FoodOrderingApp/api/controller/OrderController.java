@@ -90,7 +90,7 @@ public class OrderController {
         PaymentEntity paymentEntity = paymentService.getPaymentByUUID(saveOrderRequest.getPaymentId().toString());
 
         // Handle restaurant exception
-        RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(saveOrderRequest.getRestaurantId().toString());
+        RestaurantEntity restaurantEntity = restaurantService.getRestaurantByUuid(saveOrderRequest.getRestaurantId().toString());
         // Handle item exception
 
         List<ItemQuantity> itemQuantities = saveOrderRequest.getItemQuantities();
@@ -116,6 +116,8 @@ public class OrderController {
         // set restaurant id here
         orderEntity.setRestaurant_id(restaurantEntity.getId());
 
+        //persist order
+        orderService.saveOrder(orderEntity);
 
         // Return response
         SaveOrderResponse saveOrderResponse = new SaveOrderResponse();
