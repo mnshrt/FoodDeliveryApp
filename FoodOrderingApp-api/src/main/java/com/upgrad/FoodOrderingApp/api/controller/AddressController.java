@@ -74,7 +74,7 @@ public class AddressController {
         if (!addressEntity.getPincode().matches("^[1-9][0-9]{5}$")){
             throw new SaveAddressException("SAR-002", "Invalid pincode");
         }
-
+        List<RestaurantList> restaurantList = new ArrayList<>();
 
         String cityExists = String.valueOf(saveAddressRequest.getCity());
         String flatBuilNameExists = String.valueOf(saveAddressRequest.getFlatBuildingName());
