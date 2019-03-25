@@ -131,6 +131,17 @@ public class RestExceptionHandler {
     }
 
 
+    @ExceptionHandler(CouponNotFoundException.class)
+    public ResponseEntity<ErrorResponse> couponNotFoundException(CouponNotFoundException ex,
+                                                                 WebRequest request){
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse()
+                .code(ex.getCode())
+                .message(ex.getErrorMessage()),
+                HttpStatus.FORBIDDEN
+        );
+    }
+
+
     @ExceptionHandler(RestaurantNotFoundException.class)
     public ResponseEntity<ErrorResponse> restaurantNotFoundException(RestaurantNotFoundException ex,
                                                                      WebRequest request) {
@@ -160,5 +171,6 @@ public class RestExceptionHandler {
                 HttpStatus.NOT_FOUND
         );
     }
+
 
 }

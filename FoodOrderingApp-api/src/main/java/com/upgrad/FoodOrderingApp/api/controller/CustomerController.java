@@ -17,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -150,8 +152,11 @@ public class CustomerController {
                 .message("LOGGED IN SUCCESSFULLY");
 
         // Add access token to the header
+        List<String> header = new ArrayList<>();
+        header.add("access-token");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("access-token", customerAuthToken.getAccessToken());
+        httpHeaders.setAccessControlExposeHeaders(header);
 
         // Return loginResponse, header, and the corresponding HTTP status
         return new ResponseEntity<LoginResponse>(loginResponse, httpHeaders, HttpStatus.OK);
