@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.xml.ws.Response;
+
 /**
  * Description - ExceptionHandler for all the exceptions to be implemented.
  */
@@ -128,6 +130,7 @@ public class RestExceptionHandler {
         );
     }
 
+
     @ExceptionHandler(RestaurantNotFoundException.class)
     public ResponseEntity<ErrorResponse> restaurantNotFoundException(RestaurantNotFoundException ex,
                                                                      WebRequest request) {
@@ -157,4 +160,5 @@ public class RestExceptionHandler {
                 HttpStatus.NOT_FOUND
         );
     }
+
 }
