@@ -3,9 +3,7 @@ package com.upgrad.FoodOrderingApp.api.controller;
 import com.upgrad.FoodOrderingApp.api.model.*;
 import com.upgrad.FoodOrderingApp.service.businness.*;
 import com.upgrad.FoodOrderingApp.service.entity.*;
-import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
-import com.upgrad.FoodOrderingApp.service.exception.InvalidRatingException;
-import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
+import com.upgrad.FoodOrderingApp.service.exception.*;
 import org.junit.experimental.categories.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -164,17 +162,14 @@ public class RestaurantController {
     }
 
     @GetMapping(path = "/api/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestaurantDetailsResponse> getRestaurantByRestaurantId(@PathVariable String restaurant_id) throws RestaurantNotFoundException {
+    public ResponseEntity<RestaurantDetailsResponse> getRestaurantByRestaurantId(@PathVariable String restaurant_id) throws RestaurantNotFoundException, ItemNotFoundException {
 
         RestaurantDetailsResponse restaurantDetailsResponse = null;
         if (restaurant_id == null) {
             throw new RestaurantNotFoundException("RF-002", "Restaurant id field should not be empty");
 
         } else {
-            RestaurantEntity r = null;
-            if (restaurantService.getRestaurantById(restaurant_id) != null) {
-
-                r = restaurantService.getRestaurantById(restaurant_id);
+            RestaurantEntity r = restaurantService.getRestaurantByUuid(restaurant_id);
 
 
                 //Get the categories
@@ -224,7 +219,7 @@ public class RestaurantController {
 
             }
 
-        }
+
 
         return new ResponseEntity(restaurantDetailsResponse, HttpStatus.OK);
 
@@ -232,13 +227,13 @@ public class RestaurantController {
     }
 
     @GetMapping(path = "/restaurant/category/{category_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestaurantListResponse> getRestaurantsByCategoryId(@PathVariable String category_id) {
-        CategoryEntity categoryEntity = categoryService.getCategoryById(category_id);
+    public ResponseEntity<RestaurantListResponse> getRestaurantsByCategoryId(@PathVariable String category_id) throws RestaurantNotFoundException, CategoryNotFoundException {
+        CategoryEntity categoryEntity = categoryService.getCategoryByUuid(category_id);
 
         List<RestaurantCategoryEntity> restaurantCategoryEntities = restaurantCategoryService.getAllRestaurantsByCategory(categoryEntity);
         List<RestaurantEntity> restaurantEntityList = new ArrayList<>();
         for (RestaurantCategoryEntity r : restaurantCategoryEntities) {
-            RestaurantEntity restaurantEntity = restaurantService.getRestaurantByRestaurantId(r.getRestaurantEntity());
+            RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(r.getRestaurantEntity());
             restaurantEntityList.add(restaurantEntity);
 
         }
@@ -304,11 +299,8 @@ public class RestaurantController {
             if (restaurant_id == null) {
                 throw new RestaurantNotFoundException("RNF-002", "Restaurant id field should not be empty");
             } else {
-                RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(restaurant_id);
-                if (restaurantEntity == null) {
-                    throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
-                } else {
-                    if (customer_rating >= 1 && customer_rating <= 5) {
+                RestaurantEntity restaurantEntity = restaurantService.getRestaurantByUuid(restaurant_id);
+                if (customer_rating >= 1 && customer_rating <= 5) {
                         int updatedNumber = restaurantEntity.getNumberOfCustomersRated() + 1;
                         restaurantEntity.setCustomerRating(BigDecimal.valueOf(customer_rating));
                         restaurantEntity.setNumberOfCustomersRated(updatedNumber);
@@ -318,8 +310,6 @@ public class RestaurantController {
                     } else {
                         throw new InvalidRatingException("IRE-001", "Restaurant should be in the range of 1 to 5");
                     }
-
-                }
             }
             return new ResponseEntity<>(restaurantUpdatedResponse, HttpStatus.OK);
         } else {

@@ -31,10 +31,10 @@ public class RestaurantDao {
         }
     }
 
-
+    // adding lower to make case insensitive search
     public List<RestaurantEntity> getAllRestaurantsByName(String restaurantName) {
         try {
-            String query = "select r from RestaurantEntity r where r.restaurantName like :name order by r.customerRating desc";
+            String query = "select r from RestaurantEntity r where lower(r.restaurantName) like lower(:name) order by r.customerRating desc";
             return entityManager.createQuery(query, RestaurantEntity.class)
                     .setParameter("name", '%' + restaurantName + '%').getResultList();
 
@@ -45,7 +45,7 @@ public class RestaurantDao {
     }
 
 
-    public RestaurantEntity getRestaurantById(String restaurantId) {
+    public RestaurantEntity getRestaurantByUuid(String restaurantId) {
         try {
             String query = "select r from RestaurantEntity r where r.uuid = :uuid";
             return entityManager.createQuery(query, RestaurantEntity.class)
@@ -66,7 +66,7 @@ public class RestaurantDao {
     }
 
 
-    public RestaurantEntity getRestaurantByRestaurantId(RestaurantEntity restaurantEntity) {
+    public RestaurantEntity getRestaurantById(RestaurantEntity restaurantEntity) {
 
 
             try {

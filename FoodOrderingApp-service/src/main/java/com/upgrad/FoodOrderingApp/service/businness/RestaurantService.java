@@ -33,8 +33,8 @@ public class RestaurantService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public RestaurantEntity getRestaurantById(String rUuid) throws RestaurantNotFoundException {
-        RestaurantEntity re = restaurantDao.getRestaurantById(rUuid);
+    public RestaurantEntity getRestaurantByUuid(String rUuid) throws RestaurantNotFoundException {
+        RestaurantEntity re = restaurantDao.getRestaurantByUuid(rUuid);
         if (re == null) {
             throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
         } else {
@@ -43,8 +43,8 @@ public class RestaurantService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public RestaurantEntity getRestaurantByRestaurantId(RestaurantEntity re) throws RestaurantNotFoundException {
-        RestaurantEntity r = restaurantDao.getRestaurantByRestaurantId(re);
+    public RestaurantEntity getRestaurantById(RestaurantEntity re) throws RestaurantNotFoundException {
+        RestaurantEntity r = restaurantDao.getRestaurantById(re);
         if (r == null) {
             throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
         } else {

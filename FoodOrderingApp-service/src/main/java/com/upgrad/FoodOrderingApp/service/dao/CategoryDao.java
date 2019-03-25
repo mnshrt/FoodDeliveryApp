@@ -39,7 +39,7 @@ public class CategoryDao {
         }
     }
 
-    public CategoryEntity getCategoryById(String category_id) {
+    public CategoryEntity getCategoryByUuid(String category_id) {
         try {
 
             String query = "select u from CategoryEntity u where u.uuid = :userInput";

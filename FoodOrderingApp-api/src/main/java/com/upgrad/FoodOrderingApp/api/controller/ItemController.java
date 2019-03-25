@@ -40,7 +40,7 @@ public class ItemController {
     public ResponseEntity<List<ItemList>> getTopFiveItemsByPopularity(@PathVariable String restaurant_id)
             throws RestaurantNotFoundException {
         RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(restaurant_id);
-        if (restaurantEntity != null) {
+
             List<RestaurantItemEntity> restaurantItemEntities = restaurantItemService.getItemsByRestaurant(restaurantEntity);
 
             Map<ItemEntity, Integer> idPriceMap = new HashMap<>();
@@ -52,16 +52,17 @@ public class ItemController {
             List<ItemEntity> itemEntities = getSortedItemList(idPriceMap);
             List<ItemList> itemListList = new ArrayList<>();
             for (ItemEntity ie : itemEntities) {
-                ItemList itemQuantityResponseItem = new ItemList()
-                        .itemName(ie.getItemName()).price(ie.getPrice()).id(UUID.fromString(ie.getUuid()))
-                        .itemType(ItemList.ItemTypeEnum.fromValue(ie.getType()));
-                itemListList.add(itemQuantityResponseItem);
+                int i = 0;
+                while (i < 5) {
+                    ItemList itemQuantityResponseItem = new ItemList()
+                            .itemName(ie.getItemName()).price(ie.getPrice()).id(UUID.fromString(ie.getUuid()))
+                            .itemType(ItemList.ItemTypeEnum.fromValue(ie.getType()));
+                    itemListList.add(itemQuantityResponseItem);
+                    i++;
+                }
             }
             return new ResponseEntity<>(itemListList, HttpStatus.OK);
 
-        } else {
-            throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
-        }
 
     }
 

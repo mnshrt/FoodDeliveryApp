@@ -3,6 +3,7 @@ package com.upgrad.FoodOrderingApp.service.businness;
 import com.upgrad.FoodOrderingApp.service.dao.CategoryDao;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
+import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,17 +21,17 @@ public class CategoryService {
     public List<CategoryEntity> getAllCategories() {
 
         return categoryDao.getAllCategories();
+
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public CategoryEntity getCategoryById(String category_id) {
-
-        return categoryDao.getCategoryById(category_id);
+    public CategoryEntity getCategoryByUuid(String category_id) throws CategoryNotFoundException {
+        CategoryEntity ce = categoryDao.getCategoryByUuid(category_id);
+        if (ce == null) {
+            throw new CategoryNotFoundException("CNF-002", "No category by this id");
+        } else {
+            return ce;
+        }
     }
 
- /*   public String getAllCategoriesByRestaurantId(RestaurantEntity r) {
-
-        categoryDao.getAllCategoriesByRestaurantId(r).toString();
-    }
-    */
 }
